@@ -9,8 +9,11 @@ import mss
 import mss.tools
 from vision import Vision
 import genes
+from rich import print
+from rich.console import Console
 from time import sleep
 
+console = Console()
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
 mss = mss.mss()
 
@@ -30,6 +33,7 @@ mon_loot = {"top": 299, "left": 797, "width": 154, "height": 20}
 
 gene_set = set()
 gene_file = open('genes.txt', 'w')
+gene_file.close()
 
 # Loop until Q is pressed
 while True:
@@ -59,12 +63,23 @@ while True:
             gene_output.append(max_gene)
         cv.imshow('test', img2)
 
-    gene_output = ''.join(gene_output)
-    if gene_output not in gene_set and len(gene_output) == 6:
-        gene_set.add(gene_output)
-        gene_file.write(gene_output)
-        gene_file.write('\n')
-        print(gene_output)
+    gene_joined = ''.join(gene_output)
+    if gene_joined not in gene_set and len(gene_joined) == 6:
+        gene_set.add(gene_joined)
+        with open('genes.txt', 'a') as gene_file:
+            gene_file.write(gene_joined + '\n')
+        gene_formatted = ''
+        for letter in gene_joined:
+            if letter in ['G', 'Y', 'H']:
+                gene_formatted += (f'[bold green]{letter}[/bold green]')
+                # console.print(f'[bold green]{letter}[/bold green]')
+            else:
+                gene_formatted += (f'[bold red]{letter}[/bold red]')
+                # console.print(f'[bold red]{letter}[/bold red]')
+
+
+        print(gene_formatted)
+        # print(gene_joined)
     # print(gene_output)
     cv.imshow('Result', img)
     # cv.imshow('Gene ROI', img2)
@@ -75,5 +90,3 @@ while True:
     if cv.waitKey(1) == ord('q'):
         cv.destroyAllWindows()
         break
-
-gene_file.close()
