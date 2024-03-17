@@ -23,7 +23,7 @@ class Vision:
         # TM_CCOEFF, TM_CCOEFF_NORMED, TM_CCORR, TM_CCORR_NORMED, TM_SQDIFF, TM_SQDIFF_NORMED
         self.method = method
 
-    def __threshold_image(self, haystack_img, threshold_min=200, debug_mode=None):
+    def __threshold_image(self, haystack_img, threshold_min=127, debug_mode=None):
         """
         Threshold Haystack Image.
 
