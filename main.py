@@ -12,15 +12,17 @@ import genes
 from rich import print
 from rich.console import Console
 from time import sleep
+from playsound import playsound
+
+
 
 console = Console()
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
 mss = mss.mss()
 
 
-def empty(blah):
-    pass
 
+playsound("sound/click-pen.mp3")
 
 y_gene = Vision('img/y-gene.png')
 g_gene = Vision('img/g-gene.png')
@@ -32,7 +34,7 @@ mon_world = {"top": 286+offset, "left": 1073, "width": 373, "height": 148}
 mon_loot = {"top": 299+offset, "left": 797, "width": 154, "height": 20}
 
 gene_set = set()
-gene_file = open('hemp.txt', 'w')
+gene_file = open('genes.txt', 'w')
 gene_file.close()
 
 # Loop until Q is pressed
@@ -44,6 +46,7 @@ while True:
     regions = genes.get_gene_roi(img)
 
     gene_output = []
+    genes_test = None
     for i in range(len(regions)):
         x, y, w, h = regions[i]
         current_gene = img[y:y + h, x:x + w]
@@ -67,7 +70,7 @@ while True:
     gene_joined = ''.join(gene_output)
     if gene_joined not in gene_set and len(gene_joined) == 6:
         gene_set.add(gene_joined)
-        with open('hemp.txt', 'a') as gene_file:
+        with open('genes.txt', 'a') as gene_file:
             gene_file.write(gene_joined + '\n')
         gene_formatted = ''
         for letter in gene_joined:
@@ -78,7 +81,7 @@ while True:
                 gene_formatted += (f'[bold red]{letter}[/bold red]')
                 # console.print(f'[bold red]{letter}[/bold red]')
 
-
+        playsound("sound/click-pen.mp3")
         print(gene_formatted)
         # print(gene_joined)
     # print(gene_output)
